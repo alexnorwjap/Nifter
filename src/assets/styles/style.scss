@@ -1,0 +1,80 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--ff);
+}
+
+button,
+input {
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: clip;
+}
+
+.page {
+  flex: 1 1 auto;
+}
+
+[class*='__container'] {
+  max-width: 1486px;
+  padding: 0 61px;
+  margin: 0 auto;
+}
+
+.navigation {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+
+  transition: opacity 0.6;
+  top: 100%;
+  left: calc(50% - 1px);
+
+  button {
+    width: 35px;
+    aspect-ratio: 1;
+    background: linear-gradient(90deg, #87289871 0%, #8f1fa362 100%);
+    border-radius: 12px;
+    border: 0;
+    cursor: pointer;
+  }
+}
+
+.highlight {
+  background-color: yellow;
+  color: black;
+}
+
+.highlight.focused {
+  border: 2px solid orange;
+  box-shadow: 0 0 5px 2px orange;
+  border-radius: 3px;
+}
