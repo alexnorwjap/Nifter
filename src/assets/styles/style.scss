@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  outline: none;
 }
 
 html {
@@ -31,6 +32,17 @@ a {
   text-decoration: none;
 }
 
+//img {
+//  width: 100%;
+//  height: 100%;
+//  object-fit: cover;
+//}
+
+ul,
+li {
+  list-style: none;
+}
+
 .wrapper {
   min-height: 100%;
   display: flex;
@@ -45,7 +57,7 @@ a {
 
 [class*='__container'] {
   max-width: 1486px;
-  padding: 0 61px;
+  padding: 0 60px;
   margin: 0 auto;
 }
 
@@ -73,8 +85,13 @@ a {
   color: black;
 }
 
-.highlight.focused {
-  border: 2px solid orange;
-  box-shadow: 0 0 5px 2px orange;
-  border-radius: 3px;
+//.highlight.focused {
+//  border: 2px solid orange;
+//  box-shadow: 0 0 5px 2px orange;
+//  border-radius: 3px;
+//}
+
+.page {
+  &__hero {
+  }
 }

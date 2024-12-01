@@ -13,4 +13,7 @@
       d="M4.07854 19.3931L9.77837 26.1733L11.7645 28.1954L11.8946 30.1685L13.0397 34L0.931852 19.4683L11.1606 15.2713L7.33558 23.2675L4.07854 19.3931Z"
       fill="currentColor" />
   </symbol>
+  <symbol id="rhombus" width="15" height="21" viewBox="0 0 15 21">
+    <path d="M7.5 0L15 10.5L7.5 21L0 10.5L7.5 0Z" fill="currentColor" />
+  </symbol>
 </svg>

@@ -45,12 +45,18 @@
       border-radius: 100%;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       &:after {
         inset: 0;
         width: 100%;
         height: 100%;
         filter: blur(20px);
+      }
+    }
+    &:active {
+      &:after {
+        content: none;
       }
     }
 
@@ -76,7 +82,8 @@
   &__link {
     position: relative;
 
-    &:hover {
+    &:hover,
+    &:focus {
       &:after {
         content: '';
         position: absolute;
@@ -104,7 +111,7 @@
   gap: 20px;
 
   &__input {
-    max-width: 114px;
+    max-width: 116px;
     border: 1px solid var(--white);
     border-radius: 10px;
     transition: max-width 0.6s;
@@ -119,6 +126,7 @@
     &::placeholder {
       transition: opacity 0.6s;
       color: var(--white);
+
       &::before {
         content: '';
       }
@@ -128,29 +136,34 @@
     &:hover {
       max-width: 100%;
       flex: 1 1 auto;
+      border: 1px solid #882898;
+      box-shadow: 1px 1px 15px 0 rgba(201, 55, 225, 0.55);
       &::placeholder {
         opacity: 0;
       }
     }
+    &:active {
+      box-shadow: 3px 4px 8px 0 rgba(201, 55, 225, 0.15);
+    }
   }
 
   &__button {
-    border: 0;
-
+    background: transparent;
     padding: 11px 28px;
-
-    background: linear-gradient(90deg, #882898 0%, #901fa3 100%);
+    border: 1px solid var(--white);
     border-radius: 10px;
-
-    letter-spacing: 0.05em;
     cursor: pointer;
 
-    box-shadow: 3px 4px 8px 0 rgba(201, 55, 225, 0.15);
-    &:hover {
-      box-shadow: 3px 4px 8px 0 rgba(201, 55, 225, 0.35);
+    &:hover,
+    &:focus {
+      background: var(--hero-gradient-btn);
+      box-shadow: 3px 4px 8px 0 rgba(201, 55, 225, 0.15);
+      border: 1px solid transparent;
     }
     &:active {
-      box-shadow: none;
+      background: transparent;
+      border: 1px solid var(--white);
+      box-shadow: 1px 1px 15px 0 rgba(201, 55, 225, 0.55);
     }
   }
 }
