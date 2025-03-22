@@ -1,0 +1,37 @@
+<section class="page__top-seller top-seller">
+  <div class="top-seller__container">
+    <div class="top-seller__header">
+      <h2 class="top-seller__title title-section">Top seller</h2>
+      <div class="top-seller__dropdown dropdown">
+        <button type="button" class="dropdown__target close" id="dropdown-target">
+          <span id="dropdown-selected">Today</span>
+          <span class="blur"
+            ><svg>
+              <use href="image/svg/sprite.svg#sign"></use>
+            </svg>
+          </span>
+        </button>
+        <ul class="dropdown__options" id="options-wrap">
+          <li class="dropdown__option" id="dropdown-option" value="today">Today</li>
+          <li class="dropdown__option" id="dropdown-option" value="week">Week</li>
+          <li class="dropdown__option" id="dropdown-option" value="month">Month</li>
+        </ul>
+      </div>
+    </div>
+    <div class="top-seller__slider slider">
+      <ul class="slider__wrap" id="slider-wrap"></ul>
+      <div class="slider__buttons" id="seller-buttons">
+        <button class="slider__prev disabled" type="button" id="seller-prev">
+          <svg>
+            <use href="image/svg/sprite.svg#switch"></use>
+          </svg>
+        </button>
+        <button class="slider__next" type="button" id="seller-next" checked>
+          <svg>
+            <use href="image/svg/sprite.svg#switch"></use>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

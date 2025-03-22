@@ -1,17 +1,23 @@
 export async function loadWrapper(arrayPath, wrapp) {
   try {
-    const responses = await Promise.all(arrayPath.map((url) => fetch(url)));
-    const wrapperContent = await Promise.all(
-      responses.map((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+    const results = await Promise.allSettled(
+      arrayPath.map(async (url) => {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`Ошибка: ${response.status}!`);
+          return await response.text();
+        } catch (err) {
+          console.warn(`Не удалось загрузить ${url}:`, err.message);
+          return null;
         }
-        return response.text();
       }),
     );
 
+    const wrapperContent = results.map(({ value }) => value);
+
+    console.log(wrapperContent);
     wrapp.insertAdjacentHTML('beforeend', wrapperContent.join(''));
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 }

@@ -25,6 +25,7 @@ input {
   font-weight: inherit;
   line-height: inherit;
   font-family: inherit;
+  background: transparent;
 }
 
 a {
@@ -92,6 +93,31 @@ li {
 //}
 
 .page {
-  &__hero {
+  display: flex;
+  flex-direction: column;
+  & > *:not(:first-child) {
+    margin: 65px 0;
   }
+  &__hero {
+    margin-bottom: 65px;
+  }
+  &__top-seller {
+  }
+}
+
+.title-section {
+  font-size: 40px;
+  line-height: 1.23;
+  font-weight: 600;
+}
+
+.userSelectOff {
+  user-select: none;
+}
+
+.cursorGrab {
+  cursor: grab;
+}
+.cursorGrabbing {
+  cursor: grabbing;
 }

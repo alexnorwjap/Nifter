@@ -16,4 +16,10 @@
   <symbol id="rhombus" width="15" height="21" viewBox="0 0 15 21">
     <path d="M7.5 0L15 10.5L7.5 21L0 10.5L7.5 0Z" fill="currentColor" />
   </symbol>
+  <symbol id="sign" width="15" height="11" viewBox="0 0 15 11" fill="none">
+    <path d="M1 1L7.80952 10L14 1" stroke="#A148AC" />
+  </symbol>
+  <symbol id="switch" width="11" height="15" viewBox="0 0 11 15" fill="none">
+    <path d="M0.999969 14L9.99997 7.19048L0.999969 1" stroke="#DB58EC" stroke-opacity="0.5" />
+  </symbol>
 </svg>
