@@ -15,7 +15,6 @@ export async function loadWrapper(arrayPath, wrapp) {
 
     const wrapperContent = results.map(({ value }) => value);
 
-    console.log(wrapperContent);
     wrapp.insertAdjacentHTML('beforeend', wrapperContent.join(''));
   } catch (error) {
     console.log(error.message);
