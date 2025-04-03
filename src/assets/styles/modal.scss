@@ -1,0 +1,116 @@
+.modal {
+  position: fixed;
+  z-index: 999;
+  width: 100vw;
+  height: 100vh;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+
+  visibility: hidden;
+  &.active {
+    visibility: visible;
+  }
+
+  &__window {
+    container-type: inline-size;
+    position: relative;
+    inset: 0;
+    margin: 0 auto;
+    padding: 30px 20px;
+    max-width: 560px;
+    width: 100%;
+
+    box-shadow: 0 10px 5px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #ffffff13;
+    backdrop-filter: blur(20px);
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    opacity: 0;
+    translate: 0 300px;
+    rotate: x 90deg;
+    transition: all 0.5s;
+
+    // @import 'info-modal.scss';
+  }
+  &__window.active {
+    opacity: 1;
+    translate: 0 0;
+    rotate: x 0deg;
+  }
+
+  &__btn-close {
+    z-index: 99;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+
+    background-color: transparent;
+    color: var(--base-text-color);
+    cursor: pointer;
+
+    font-size: 17px;
+    font-weight: var(--font-weight-Semi-Bold);
+    line-height: 20px;
+  }
+
+  &__btn-close:hover {
+    color: rgb(168, 168, 168);
+    filter: drop-shadow(2px 2px 2px rgb(146, 170, 146));
+  }
+  &__btn-close:active {
+    filter: drop-shadow(2px 2px 2px rgb(216, 228, 216));
+  }
+
+  &__img {
+    align-self: center;
+    max-width: 100%;
+    filter: drop-shadow(2px 2px 2px rgb(146, 170, 146));
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__title {
+    margin-top: 30px;
+    color: var(--base-text-color);
+    font-size: clamp(1.7rem, calc(0.29rem + 3.54vw), 3.19rem);
+    filter: drop-shadow(2px 2px 2px rgb(146, 170, 146));
+  }
+
+  &__text {
+    color: var(--base-text-color);
+    line-height: 1.4;
+    filter: drop-shadow(2px 2px 2px rgb(146, 170, 146));
+  }
+
+  .contacts {
+    &__link {
+      color: var(--base-text-color);
+    }
+  }
+
+  .social-items {
+    &__link {
+      color: var(--base-text-color);
+      border-color: var(--base-text-color);
+    }
+  }
+
+  .form-subscribe {
+    max-width: 100%;
+
+    &__email {
+      background: transparent;
+    }
+  }
+}

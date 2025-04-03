@@ -1,21 +1,25 @@
 import './assets/styles/font.scss';
 import './assets/styles/variables.scss';
 import './assets/styles/style.scss';
+import './assets/styles/modal.scss';
 import './assets/styles/header.scss';
 import './assets/styles/hero.scss';
 import './assets/styles/top-seller.scss';
 import './assets/styles/auction.scss';
+
+import './assets/styles/footer.scss';
 
 import { loadWrapper } from './assets/js/loadWrapper';
 import { AnimateCounter } from './assets/js/animateCounter';
 import { PageSearch } from './assets/js/pageSearch';
 import { syncPriceWithAPI } from './assets/js/syncPriceWithAPI';
 import * as sellerLogic from './assets/js/SellerApp';
+import { ModalErrorLinks } from './assets/js/modalWindow';
 
 async function loadPages() {
   const wrapper = document.querySelector('#wrapper');
 
-  const pathWrapper = ['html/header.html', 'html/main.html', 'html/footer.html'];
+  const pathWrapper = ['html/header.html', 'html/main.html', 'html/footer.html', 'html/modal.html'];
 
   const pathMain = [
     'html/mainSections/hero.html',
@@ -238,6 +242,8 @@ async function loadLogic() {
   });
 
   //----------------------------------------------------------
+  const linksArray = Array.from(document.querySelectorAll('[href="#"]'));
+  const linksDevelopment = new ModalErrorLinks(linksArray);
 }
 
 async function app() {
