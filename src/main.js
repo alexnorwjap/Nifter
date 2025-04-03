@@ -15,6 +15,7 @@ import { PageSearch } from './assets/js/pageSearch';
 import { syncPriceWithAPI } from './assets/js/syncPriceWithAPI';
 import * as sellerLogic from './assets/js/SellerApp';
 import { ModalErrorLinks } from './assets/js/modalWindow';
+import { CLickBurger } from './assets/js/burgerMenu';
 
 async function loadPages() {
   const wrapper = document.querySelector('#wrapper');
@@ -122,6 +123,11 @@ async function loadPages() {
 }
 
 async function loadLogic() {
+  const burgerButton = document.querySelector('#menu-icon');
+  const burgerPage = document.querySelector('#burger-page');
+  const body = document.querySelector('body');
+  console.log(burgerButton, burgerPage, body);
+  new CLickBurger(burgerButton, burgerPage, body);
   //----------------------------------------------------------
   const dataSearch = document.querySelectorAll('[data-search] *');
   const allowTags = ['a', 'span', 'p'];
