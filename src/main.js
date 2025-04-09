@@ -105,7 +105,6 @@ async function loadPages() {
         const data = await this.loadData();
 
         const listItems = await this.createListItems(data);
-        console.log(listItems);
         const ul = document.createElement('ul');
         ul.className = 'slider-auction__wrap';
         ul.id = 'slider-auction';
@@ -126,7 +125,6 @@ async function loadLogic() {
   const burgerButton = document.querySelector('#menu-icon');
   const burgerPage = document.querySelector('#burger-page');
   const body = document.querySelector('body');
-  console.log(burgerButton, burgerPage, body);
   new CLickBurger(burgerButton, burgerPage, body);
   //----------------------------------------------------------
   const dataSearch = document.querySelectorAll('[data-search] *');
@@ -140,8 +138,6 @@ async function loadLogic() {
   const counterArtist = document.querySelector('#counterArtist');
   const counterUser = document.querySelector('#counterUser');
   const counterWorks = document.querySelector('#counterWorks');
-
-  console.log(counterArtist, counterUser, counterWorks);
 
   new AnimateCounter(counterUser, 42042, 3000);
   new AnimateCounter(counterWorks, 8342, 3000);
@@ -195,17 +191,39 @@ async function loadLogic() {
   new sellerLogic.SellerApp();
 
   // ----------------------------------------------------------
+
+  const auctionItem = document.querySelector('#slider-auction-wrap');
+  const auctionItemWidth = window.getComputedStyle(auctionItem).width;
   const containerAuction = document.querySelector('#slider-auction');
   const auctionPrev = document.querySelector('#auction-prev');
   const auctionNext = document.querySelector('#auction-next');
-  const moveCount = -431;
+
+  let moveCount = -430;
+  let firstStep = 0;
+  console.log(auctionItemWidth);
+  if (parseFloat(auctionItemWidth) === 1024) {
+    firstStep = -140;
+  }
+  if (parseFloat(auctionItemWidth) === 768) {
+    firstStep = -229;
+  }
+  if (parseFloat(auctionItemWidth) === 560) {
+    firstStep = -351;
+  }
+  if (parseFloat(auctionItemWidth) === 401) {
+    firstStep = -431;
+  }
+  if (parseFloat(auctionItemWidth) <= 263) {
+    moveCount = -290;
+    firstStep = -288;
+  }
+
   const startActive = 1;
   let isAnimate = false;
   let activeItem = document.querySelector('.active');
-  console.log(containerAuction);
   containerAuction.prepend(containerAuction.lastElementChild);
 
-  containerAuction.style.transform = `translateX(${moveCount}px)`;
+  containerAuction.style.transform = `translateX(${moveCount + firstStep}px)`;
 
   auctionNext.addEventListener('click', moveRight);
   auctionPrev.addEventListener('click', moveLeft);
@@ -215,13 +233,13 @@ async function loadLogic() {
     isAnimate = true;
     activeItem.classList.remove('active');
     containerAuction.style.transition = 'transform 0.5s ease';
-    containerAuction.style.transform = 'translateX(0px)';
+    containerAuction.style.transform = `translateX(${firstStep}px)`;
     activeItem = activeItem.previousElementSibling;
     activeItem.classList.add('active');
     setTimeout(() => {
       containerAuction.style.transition = 'none';
       containerAuction.prepend(containerAuction.lastElementChild);
-      containerAuction.style.transform = `translateX(${moveCount}px)`;
+      containerAuction.style.transform = `translateX(${moveCount + firstStep}px)`;
       isAnimate = false;
     }, 500);
   }
@@ -231,13 +249,13 @@ async function loadLogic() {
     isAnimate = true;
     activeItem.classList.remove('active');
     containerAuction.style.transition = 'transform 0.5s ease';
-    containerAuction.style.transform = `translateX(${moveCount * 2}px)`;
+    containerAuction.style.transform = `translateX(${(moveCount + firstStep / 2) * 2}px)`;
     activeItem = activeItem.nextElementSibling;
     activeItem.classList.add('active');
     setTimeout(() => {
       containerAuction.style.transition = 'none';
       containerAuction.appendChild(containerAuction.firstElementChild);
-      containerAuction.style.transform = `translateX(${moveCount}px)`;
+      containerAuction.style.transform = `translateX(${moveCount + firstStep}px)`;
       isAnimate = false;
     }, 500);
   }

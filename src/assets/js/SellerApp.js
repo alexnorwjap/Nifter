@@ -4,7 +4,7 @@ export class DropdownManager {
     this.dropdownOptions = document.querySelectorAll(optionSelector);
     this.dropdownTarget = document.querySelector(targetSelector);
     this.isOpen = false;
-    this.currentPeriod = 'today';
+    this.currentPeriod = 'month';
     this.init();
   }
 
@@ -62,17 +62,19 @@ export class DropdownManager {
 
 export class SellerSlider {
   constructor(sliderWrapSelector, prevBtnSelector, nextBtnSelector, btnContainerSelector) {
+    this.slider = document.querySelector('.slider');
+    this.buttonContainer = document.querySelector(btnContainerSelector);
     this.sliderWrap = document.querySelector(sliderWrapSelector);
     this.prevButton = document.querySelector(prevBtnSelector);
     this.nextButton = document.querySelector(nextBtnSelector);
-    this.buttonContainer = document.querySelector(btnContainerSelector);
 
     this.sliderRect = this.sliderWrap.getBoundingClientRect();
     this.columnGap = window.getComputedStyle(this.sliderWrap).columnGap;
-    this.slideStep = 300 + parseFloat(this.columnGap);
+    this.sliderScrollWidth;
+    this.slideStep;
     this.currentPosition = 0;
     this.dragOffsetX = 0;
-    this.viewportWidth = 1366;
+    this.viewportWidth;
 
     this.handleDragMoveMethod = (event) => this.handleDragMove(event);
 
@@ -89,8 +91,30 @@ export class SellerSlider {
     this.sliderWrap.classList.add('cursorGrab');
   }
 
+  updateSliderStep() {
+    if (this.slider.clientWidth <= 1476) {
+      this.slideStep = 300 + parseFloat(this.columnGap);
+    }
+    if (this.slider.clientWidth < 300) {
+      this.slideStep = 260 + parseFloat(this.columnGap);
+    }
+  }
+  updateSliderWidth() {
+    this.viewportWidth = this.slider.clientWidth;
+  }
+  updateSliderScrollWidth() {
+    const scrollWidthRect = Math.floor(this.sliderWrap.getBoundingClientRect().width);
+    if (!this.sliderScrollWidth || this.sliderScrollWidth !== scrollWidthRect) {
+      this.sliderScrollWidth = scrollWidthRect;
+    }
+  }
+
   handleButtonClick(event) {
     const target = event.target.closest('#seller-prev, #seller-next');
+    this.updateSliderScrollWidth();
+    this.updateSliderStep();
+    this.updateSliderWidth();
+
     if (!target) return;
 
     if (target === this.prevButton && this.currentPosition < 0) {
@@ -99,13 +123,13 @@ export class SellerSlider {
 
     if (
       target === this.nextButton &&
-      -this.currentPosition < this.sliderWrap.scrollWidth - this.viewportWidth
+      -this.currentPosition < this.sliderScrollWidth - this.viewportWidth
     ) {
       this.currentPosition -= this.slideStep;
     }
 
     this.currentPosition = Math.max(
-      -(this.sliderWrap.scrollWidth - this.viewportWidth),
+      -(this.sliderScrollWidth - this.viewportWidth),
       Math.min(0, this.currentPosition),
     );
 
@@ -123,16 +147,19 @@ export class SellerSlider {
       this.prevButton.classList.remove('disabled');
     }
 
-    if (this.currentPosition === -(this.sliderWrap.scrollWidth - this.viewportWidth)) {
+    if (this.currentPosition === -(this.sliderScrollWidth - this.viewportWidth)) {
       this.nextButton.classList.add('disabled');
     }
 
-    if (this.currentPosition !== -(this.sliderWrap.scrollWidth - this.viewportWidth)) {
+    if (this.currentPosition !== -(this.sliderScrollWidth - this.viewportWidth)) {
       this.nextButton.classList.remove('disabled');
     }
   }
 
   handleDragStart(event) {
+    this.updateSliderScrollWidth();
+    this.updateSliderStep();
+    this.updateSliderWidth();
     this.dragOffsetX = event.clientX - this.sliderRect.left - this.currentPosition;
     this.sliderWrap.addEventListener('pointermove', this.handleDragMoveMethod);
   }
@@ -145,8 +172,8 @@ export class SellerSlider {
     this.currentPosition = currentPointerX - this.dragOffsetX;
     if (this.currentPosition > 0) this.currentPosition = 0;
 
-    if (-this.currentPosition > this.sliderWrap.scrollWidth - this.viewportWidth)
-      this.currentPosition = -(this.sliderWrap.scrollWidth - this.viewportWidth);
+    if (-this.currentPosition > this.sliderScrollWidth - this.viewportWidth)
+      this.currentPosition = -(this.sliderScrollWidth - this.viewportWidth);
 
     this.sliderWrap.style.transform = `translateX(${this.currentPosition}px)`;
   }
@@ -157,7 +184,7 @@ export class SellerSlider {
     this.currentPosition = Math.round(stepsCount) * this.slideStep;
 
     this.currentPosition = Math.max(
-      -(this.sliderWrap.scrollWidth - this.viewportWidth),
+      -(this.sliderScrollWidth - this.viewportWidth),
       Math.min(0, this.currentPosition),
     );
 

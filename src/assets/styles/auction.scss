@@ -1,15 +1,21 @@
-.page {
-  &__auction {
-  }
-}
+// .page {
+// &__auction {
+// }
+// }
 .auction {
   &__container {
-    min-height: 707px;
+    // min-height: 707px;
+    @media (max-width: 543px) {
+      padding: 0 10px;
+    }
   }
 
   &__title {
     text-align: center;
     margin-bottom: 70px;
+    @media (max-width: 543px) {
+      margin-bottom: 35px;
+    }
   }
 
   &__slider {
@@ -18,8 +24,8 @@
     justify-content: space-between;
   }
 }
-.title-section {
-}
+// .title-section {
+// }
 .slider-auction {
   &__prev {
     svg {
@@ -32,6 +38,21 @@
     position: relative;
     max-width: 1263px;
     overflow: hidden;
+    @media (max-width: 1485px) {
+      max-width: 1024px;
+    }
+    @media (max-width: 1164px) {
+      max-width: 768px;
+    }
+    @media (max-width: 920px) {
+      max-width: 560px;
+    }
+    @media (max-width: 700px) {
+      max-width: 401px;
+    }
+    @media (max-width: 543px) {
+      max-width: 263px;
+    }
 
     &:before {
       content: '';
@@ -46,6 +67,9 @@
       filter: blur(10px);
       opacity: 0.4;
       pointer-events: none;
+      @media (max-width: 543px) {
+        display: none;
+      }
     }
     &:after {
       content: '';
@@ -59,6 +83,9 @@
       filter: blur(10px);
       opacity: 0.4;
       pointer-events: none;
+      @media (max-width: 543px) {
+        display: none;
+      }
     }
   }
 
@@ -66,8 +93,12 @@
     width: max-content;
     display: flex;
     align-items: center;
+    min-height: 588px;
 
     gap: 30px;
+    @media (max-width: 543px) {
+      min-height: 520px;
+    }
   }
 
   &__item {
@@ -84,22 +115,25 @@
   }
 }
 .item-auction {
-  width: max-content;
+  flex: 1 0 auto;
   position: relative;
   display: flex;
   flex-direction: column;
-  max-width: 401px;
 
   border-radius: 47px;
   padding: 10px;
 
   background: #29212a;
 
+  @media (max-width: 543px) {
+    width: 260px;
+  }
+
   &.active > * {
     transition: all 0.5s ease;
   }
   &__image {
-    width: 100%;
+    // width: 100%;
     max-height: 292px;
     position: relative;
     border-radius: 47px;
@@ -130,6 +164,11 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
+    @media (max-width: 543px) {
+      top: 6.5%;
+      right: 9.6%;
+    }
     .item-auction.active & {
       top: 6.1%;
     }
@@ -155,9 +194,14 @@
     border-radius: 19.5px;
     border: 1px solid var(--black);
     overflow: hidden;
+
     .item-auction.active & {
       height: 63px;
       top: 52%;
+      @media (max-width: 543px) {
+        top: 35.4%;
+        left: 10.7%;
+      }
     }
     img {
       width: 100%;
@@ -173,6 +217,10 @@
     grid-template-areas: 'title price' 'subtitle stock' 'bid bid' 'buttons buttons';
     justify-content: space-between;
     padding: 0 7px;
+    @media (max-width: 543px) {
+      row-gap: 15px;
+      justify-content: center;
+    }
   }
 
   &__title {
@@ -184,6 +232,10 @@
     margin-bottom: 6.5px;
     .item-auction.active & {
       margin-bottom: 10px;
+      @media (max-width: 543px) {
+        font-size: 1.25rem;
+        margin-bottom: 0;
+      }
     }
   }
 
@@ -199,6 +251,10 @@
     color: #b85fc6;
     border: 1px solid #784580;
     border-radius: 10px;
+
+    @media (max-width: 543px) {
+      padding: 6px 12px;
+    }
   }
 
   &__subtitle {
@@ -210,6 +266,11 @@
     margin-bottom: 12.5px;
     .item-auction.active & {
       margin-bottom: 17px;
+    }
+    @media (max-width: 543px) {
+      .item-auction.active & {
+        margin-bottom: 10px;
+      }
     }
   }
 
@@ -242,11 +303,16 @@
     span {
       color: #b85fc6;
     }
+    @media (max-width: 543px) {
+      .item-auction.active & {
+        margin-bottom: 17px;
+      }
+    }
   }
 
   &__buttons {
     display: flex;
-    gap: 77px;
+    gap: clamp(30.08px, calc(-76.48px + 10.4vw), 76.96px);
     grid-area: buttons;
     justify-self: center;
     align-items: center;
@@ -272,10 +338,20 @@
         box-shadow: 3px 3px 14px 0 rgba(166, 88, 179, 0.36);
       }
     }
+    @media (max-width: 543px) {
+      button {
+        width: 100%;
+      }
+      .item-auction.active & {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
   }
 
-  &__place-bid {
-  }
-  &__view {
-  }
+  // &__place-bid {
+  // }
+  // &__view {
+  // }
 }
