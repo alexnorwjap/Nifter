@@ -6,6 +6,7 @@ import './assets/styles/header.scss';
 import './assets/styles/hero.scss';
 import './assets/styles/top-seller.scss';
 import './assets/styles/auction.scss';
+import './assets/styles/hot-collection.scss';
 
 import './assets/styles/footer.scss';
 
@@ -16,6 +17,7 @@ import { syncPriceWithAPI } from './assets/js/syncPriceWithAPI';
 import * as sellerLogic from './assets/js/SellerApp';
 import { ModalErrorLinks } from './assets/js/modalWindow';
 import { CLickBurger } from './assets/js/burgerMenu';
+import { renderButtons, renderCollection } from './assets/js/HotCollectionApp';
 
 async function loadPages() {
   const wrapper = document.querySelector('#wrapper');
@@ -26,6 +28,7 @@ async function loadPages() {
     'html/mainSections/hero.html',
     'html/mainSections/top-seller.html',
     'html/mainSections/live-auction.html',
+    'html/mainSections/hot-collection.html',
   ];
 
   //----------------------------------------------------------
@@ -266,8 +269,41 @@ async function loadLogic() {
   });
 
   //----------------------------------------------------------
+
+  // function hundleResize() {
+  //   console.log(auctionItem.clientWidth);
+  // }
+  //  window.addEventListener('resize', hundleResize);
+
+  //----------------------------------------------------------
+  //
   const linksArray = Array.from(document.querySelectorAll('[href="#"]'));
   const linksDevelopment = new ModalErrorLinks(linksArray);
+  //----------------------------------------------------------
+
+  //----------------------------------------------------------
+  //HotCollection
+  const containerButtons = document.querySelector('#buttons-collection');
+  const titleCollectionsBlock = document.querySelector('#collection-title');
+  renderButtons(containerButtons);
+  renderCollection(0);
+
+  let collectionIndex = 0;
+
+  containerButtons.addEventListener('change', (event) => {
+    const targetId = +event.target.id.slice(-1);
+
+    const side = collectionIndex < targetId ? 'right' : collectionIndex > targetId ? 'left' : '';
+    collectionIndex = targetId;
+
+    renderCollection(targetId, side);
+  });
+  containerButtons.addEventListener('click', (event) => {
+    if (event.target.closest('label')) {
+      titleCollectionsBlock.scrollIntoView();
+    }
+  });
+  //----------------------------------------------------------
 }
 
 async function app() {
