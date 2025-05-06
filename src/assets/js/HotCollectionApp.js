@@ -1,4 +1,4 @@
-const collection = [
+export const collectionHot = [
   [
     {
       id: 1,
@@ -211,7 +211,7 @@ export function renderButtons(buttonsContainer) {
 
   const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < collection.length; i++) {
+  for (let i = 0; i < collectionHot.length; i++) {
     const input = document.createElement('input');
     input.type = 'radio';
     input.id = `tab-${i}`;
@@ -229,7 +229,7 @@ export function renderButtons(buttonsContainer) {
   containerButtons.appendChild(fragment);
 }
 
-const createItemHTML = (item) => `
+export const createItemInCollection = (item) => `
 <li class="table-collection__item item-collection">
   <div class="item-collection__header">
     <div><img src="${item.headerImg[0]}" alt="${item.name}" /></div>
@@ -246,27 +246,27 @@ const createItemHTML = (item) => `
 </li>
 `;
 
-const animateElements = (elements, keyframes, options) => {
-  elements.forEach((element, index) => {
-    const animationOptions = {
-      duration: 400,
-      easing: 'ease-in-out',
-      fill: 'forwards',
-      ...options,
-      delay: index * (options.delay || 30),
-    };
-
-    const animation = element.animate(keyframes, animationOptions);
-
-    if (options.onFinish) {
-      animation.onfinish = () => options.onFinish(element);
-    }
-  });
-};
-
-export function renderCollection(num, side) {
-  const collectionContainer = document.querySelector('#collection-list');
+export function renderCollection(num, side, htmlCreate, collection, containerCollection) {
+  const collectionContainer = containerCollection;
   if (!collectionContainer) return;
+
+  const animateElements = (elements, keyframes, options) => {
+    elements.forEach((element, index) => {
+      const animationOptions = {
+        duration: 400,
+        easing: 'ease-in-out',
+        fill: 'forwards',
+        ...options,
+        delay: index * (options.delay || 30),
+      };
+
+      const animation = element.animate(keyframes, animationOptions);
+
+      if (options.onFinish) {
+        animation.onfinish = () => options.onFinish(element);
+      }
+    });
+  };
 
   if (collectionContainer.children.length > 0) {
     const elements = Array.from(collectionContainer.children);
@@ -289,7 +289,10 @@ export function renderCollection(num, side) {
     const renderNewItems = () => {
       collectionContainer.innerHTML = '';
 
-      const html = collection[num].map(createItemHTML).join('');
+      const html =
+        num !== null
+          ? collection[num].map(htmlCreate).join('')
+          : collection.map(htmlCreate).join('');
       collectionContainer.insertAdjacentHTML('beforeend', html);
 
       const newElements = Array.from(collectionContainer.children);
@@ -315,7 +318,8 @@ export function renderCollection(num, side) {
       });
     };
   } else {
-    const html = collection[num].map(createItemHTML).join('');
+    const html =
+      num !== null ? collection[num].map(htmlCreate).join('') : collection.map(htmlCreate).join('');
     collectionContainer.insertAdjacentHTML('beforeend', html);
 
     const elements = Array.from(collectionContainer.children);

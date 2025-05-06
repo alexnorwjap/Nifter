@@ -7,6 +7,7 @@ import './assets/styles/hero.scss';
 import './assets/styles/top-seller.scss';
 import './assets/styles/auction.scss';
 import './assets/styles/hot-collection.scss';
+import './assets/styles/explore.scss';
 
 import './assets/styles/footer.scss';
 
@@ -17,7 +18,18 @@ import { syncPriceWithAPI } from './assets/js/syncPriceWithAPI';
 import * as sellerLogic from './assets/js/SellerApp';
 import { ModalErrorLinks } from './assets/js/modalWindow';
 import { CLickBurger } from './assets/js/burgerMenu';
-import { renderButtons, renderCollection } from './assets/js/HotCollectionApp';
+import {
+  renderButtons,
+  renderCollection,
+  createItemInCollection,
+  collectionHot,
+} from './assets/js/HotCollectionApp';
+import {
+  createItemInExplore,
+  exploreData,
+  takeExploreData,
+  takeSideIndex,
+} from './assets/js/explore';
 
 async function loadPages() {
   const wrapper = document.querySelector('#wrapper');
@@ -29,6 +41,7 @@ async function loadPages() {
     'html/mainSections/top-seller.html',
     'html/mainSections/live-auction.html',
     'html/mainSections/hot-collection.html',
+    'html/mainSections/explore.html',
   ];
 
   //----------------------------------------------------------
@@ -283,10 +296,11 @@ async function loadLogic() {
 
   //----------------------------------------------------------
   //HotCollection
+  const collectionContainer = document.querySelector('#collection-list');
   const containerButtons = document.querySelector('#buttons-collection');
   const titleCollectionsBlock = document.querySelector('#collection-title');
   renderButtons(containerButtons);
-  renderCollection(0);
+  renderCollection(0, '', createItemInCollection, collectionHot, collectionContainer);
 
   let collectionIndex = 0;
 
@@ -296,12 +310,44 @@ async function loadLogic() {
     const side = collectionIndex < targetId ? 'right' : collectionIndex > targetId ? 'left' : '';
     collectionIndex = targetId;
 
-    renderCollection(targetId, side);
+    renderCollection(targetId, side, createItemInCollection, collectionHot, collectionContainer);
   });
   containerButtons.addEventListener('click', (event) => {
     if (event.target.closest('label')) {
       titleCollectionsBlock.scrollIntoView();
     }
+  });
+  //----------------------------------------------------------
+  //----------------------------------------------------------
+  //Explore
+  const tabContainer = document.querySelector('#tabs-container');
+  const containerExplore = document.querySelector('#artworks-container');
+  let exploreIndex = 0;
+  renderCollection(
+    null,
+    '',
+    createItemInExplore,
+    takeExploreData(exploreData, 'Recomendations'),
+    containerExplore,
+  );
+
+  tabContainer.addEventListener('click', (event) => {
+    const tabs = tabContainer.querySelectorAll('button');
+
+    if (!event.target.closest('button')) return;
+
+    renderCollection(
+      null,
+      takeSideIndex(exploreData, event.target.textContent, exploreIndex),
+      createItemInExplore,
+      takeExploreData(exploreData, event.target.textContent),
+      containerExplore,
+    );
+
+    tabs.forEach((element) => {
+      element.classList.remove('active');
+    });
+    event.target.classList.add('active');
   });
   //----------------------------------------------------------
 }
