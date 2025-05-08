@@ -8,6 +8,7 @@ import './assets/styles/top-seller.scss';
 import './assets/styles/auction.scss';
 import './assets/styles/hot-collection.scss';
 import './assets/styles/explore.scss';
+import './assets/styles/worksInfo.scss';
 
 import './assets/styles/footer.scss';
 
@@ -30,6 +31,7 @@ import {
   takeExploreData,
   takeSideIndex,
 } from './assets/js/explore';
+import * as workInfo from './assets/js/workInfo';
 
 async function loadPages() {
   const wrapper = document.querySelector('#wrapper');
@@ -42,6 +44,7 @@ async function loadPages() {
     'html/mainSections/live-auction.html',
     'html/mainSections/hot-collection.html',
     'html/mainSections/explore.html',
+    'html/mainSections/worksInfo.html',
   ];
 
   //----------------------------------------------------------
@@ -349,7 +352,12 @@ async function loadLogic() {
     });
     event.target.classList.add('active');
   });
+
   //----------------------------------------------------------
+  //Work info----------------------------------------------------------
+
+  const containerWorkInfo = document.querySelector('#work-info');
+  workInfo.renderList(workInfo.dataWorkInfo, containerWorkInfo, workInfo.createItemExplore);
 }
 
 async function app() {

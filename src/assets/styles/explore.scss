@@ -67,17 +67,6 @@
   &__button {
     display: block;
     margin: 0 auto;
-
-    padding: 10px 29px;
-    border: 1px solid var(--white);
-    border-radius: 10px;
-
-    &:hover,
-    &:focus {
-      border-color: transparent;
-      background-color: #a658b3;
-      box-shadow: 3px 3px 14px 0 rgba(166, 88, 179, 0.36);
-    }
   }
 }
 
