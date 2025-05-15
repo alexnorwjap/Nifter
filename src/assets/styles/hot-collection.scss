@@ -1,0 +1,129 @@
+.hot-collection {
+  &__container {
+    max-width: 1254px;
+    padding: 0 clamp(30.08px, calc(-60px + 11.72vw), 60px);
+  }
+
+  &__title {
+    margin-bottom: 70px;
+  }
+
+  &__tab-table {
+  }
+}
+.title-section {
+}
+
+.table-collection {
+  &__list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px 13px;
+    margin-bottom: 50px;
+
+    @media (max-width: 1024px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__item {
+    flex: 0 1 auto;
+  }
+
+  &__button-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+
+    input {
+      display: none;
+      &:checked + .radio-button:after {
+        background: #a658b3;
+      }
+    }
+    .radio-button {
+      position: relative;
+      width: 71px;
+      height: 7px;
+      padding: 20px 0;
+
+      cursor: pointer;
+      &:after {
+        content: '';
+        position: absolute;
+        width: 71px;
+        height: 7px;
+        border-radius: 70px;
+        background: #322a33;
+      }
+    }
+  }
+}
+
+.item-collection {
+  background: rgba(54, 44, 56, 0.36);
+  border-radius: 27px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 10px 10px 6px 10px;
+
+    div {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    div:first-child {
+      border-radius: 27px 0 0 0;
+      overflow: hidden;
+    }
+    div:last-child {
+      border-radius: 0 27px 0 0;
+      overflow: hidden;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+
+  &__middle {
+    display: flex;
+    align-self: flex-start;
+    padding: 0 10px 0 10px;
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 21px 22px;
+    border-radius: 0 0 27px 27px;
+    background: #362d37;
+    color: #a658b3;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    line-height: 1.21;
+    font-weight: 500;
+  }
+
+  &__total {
+    display: inline-block;
+    line-height: 1.2;
+    font-size: 0.9375rem;
+    font-weight: 300;
+    border: 1px solid #a658b3;
+    padding: 5px 9px;
+    border-radius: 6px;
+  }
+}

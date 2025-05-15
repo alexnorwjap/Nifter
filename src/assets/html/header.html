@@ -1,0 +1,43 @@
+<header class="header">
+  <div class="header__container">
+    <div class="header__logo logo">
+      <a href="#hero" class="logo__link" data-search>
+        <svg width="25" height="34">
+          <use href="image/svg/sprite.svg#logo"></use>
+        </svg>
+        <span>Nifter</span>
+      </a>
+    </div>
+    <nav class="header__menu menu-header" data-search>
+      <ul class="menu-header__list">
+        <li class="menu-header__item"><a href="#" class="menu-header__link">Home</a></li>
+        <li class="menu-header__item"><a href="#" class="menu-header__link">Market</a></li>
+        <li class="menu-header__item"><a href="#" class="menu-header__link">Discover</a></li>
+        <li class="menu-header__item"><a href="#" class="menu-header__link">Community</a></li>
+        <li class="menu-header__item"><a href="#" class="menu-header__link">Wallet</a></li>
+      </ul>
+    </nav>
+    <form action="/search" class="header__search search" onsubmit="return false;">
+      <input
+        type="text"
+        name="search"
+        placeholder="Search"
+        class="search__input"
+        id="search"
+        autocomplete="off" />
+      <button type="button" class="search__button" id="#">Explore</button>
+    </form>
+    <div class="burger-container">
+      <button type="button" class="icon-menu" id="menu-icon">
+        <span></span>
+      </button>
+    </div>
+    <ul class="burger-page" id="burger-page">
+      <li class="burger-page__item"><a href="#" class="burger-page__link">Home</a></li>
+      <li class="burger-page__item"><a href="#" class="burger-page__link">About Us</a></li>
+      <li class="burger-page__item"><a href="#" class="burger-page__link">Service</a></li>
+      <li class="burger-page__item"><a href="#" class="burger-page__link">Pricing</a></li>
+      <li class="burger-page__item"><a href="#" class="burger-page__link">Blog</a></li>
+    </ul>
+  </div>
+</header>

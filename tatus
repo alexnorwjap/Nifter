@@ -1,0 +1,145 @@
+[33mcommit 4b7edee14d1a6606ea5b1cc01f103170906d17de[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mgh-pages[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Thu May 15 15:39:23 2025 +0300
+
+    feat: comprehensive update of NFT marketplace structure and functionality
+    
+    - Reorganized SVG resources structure (removed 15 SVG files)
+    - Updated HTML components (footer, header, explore, hero, worksInfo, modal)
+    - Improved JavaScript module logic (HotCollectionApp, SellerApp, explore, modalWindow, pageSearch, workInfo)
+    - Optimized SCSS styles (auction, explore, style)
+    - Modified main entry point main.js
+    - Added new components (subscribe.html, auctionSlider.js, subscribe.js, timerApp.js, subscribe.scss)
+    - Fixed modal windows functionality for links in SellerApp component
+
+[33mcommit 6dac2ea448a511c90c5247afecdf1e31844c2f19[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Thu May 8 16:16:47 2025 +0300
+
+    feat: Add workInfo block, style, logic
+    
+    - Created explore component structure
+    - Added responsive styling with mobile/desktop breakpoints
+    - Implemented collection display logic using array-based data
+
+[33mcommit 6d9706797689499e21a3d332aca83cb45683486b[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Tue May 6 21:14:40 2025 +0300
+
+    feat: Add explore block, style, logic
+    
+    Created explore component structure
+    Added responsive styling with mobile/desktop breakpoints
+    Implemented collection display logic using array-based data
+
+[33mcommit 2dad63a7955d37ba5e5ccd4a025c4a05ce9ad47b[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Sat Apr 26 15:01:54 2025 +0300
+
+    feat: Add hot-collection block, style, logic
+    
+    * Created hot-collection component structure
+    * Added responsive styling with mobile/desktop breakpoints
+    * Implemented collection display logic using array-based data
+    * Connected component to main application flow
+
+[33mcommit b56451c03d72dc8cd85b9178a55b22f9a03ea1ae[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Wed Apr 9 21:11:13 2025 +0300
+
+    feat: implement responsive design across site components
+    
+    - Made sections responsive: auction, footer, header, hero, and
+      top-seller
+    - Updated shared styles in style.scss and related files
+    - Fixed dimension-dependent logic in SellerApp.js
+
+[33mcommit 2305c1b5c7b60a051216a97e22f5e44b58963ff7[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Fri Apr 4 02:12:40 2025 +0300
+
+    feat: Add responsive header and burger menu
+    - Add adaptive styles for the header
+    - Implement burger menu with open/close logic
+    - Add animations for menu appearance and disappearance
+
+[33mcommit 6772ae5c83813dd79dfb6f0cf1bd00df59bc6ee0[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Thu Apr 3 22:12:19 2025 +0300
+
+    feat: Add footer and modal window
+    - Add HTML and SCSS for footer
+    - Add modal window with dynamic content for all links (no logic)
+    - Add styles and basic modal logic
+
+[33mcommit 5136ea25b2922949928ea4de33e33a7aa8dbb050[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Tue Apr 1 18:18:08 2025 +0300
+
+    feat: Add live-auction block with slider logic
+    
+    - Add HTML and SCSS for auction block
+    - Implement JS logic for rendering elements in the slider
+    - Main slider functionality is in main.js
+    - Rendering logic moved to auctionApp.js
+
+[33mcommit 3aa7ecde077e847937bb4919fd9e52babc0c150a[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Sat Mar 22 19:49:16 2025 +0300
+
+    feat: Add Top Seller block and UI improvements
+    
+    * Added Top Seller section to HTML structure
+    * Created comprehensive styles for Top Seller block
+    * Implemented Top Seller interaction logic:
+      * Data loading for slider via dropdown menu
+        * Horizontal slider navigation with both mouse controls and
+          navigation buttons
+          * Enhanced overall site block rendering
+          * Refined global styling elements
+
+[33mcommit d81657d30f09973685b930331d85ba962da203ee[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Mon Dec 2 01:55:27 2024 +0300
+
+    feat: Add layout and animation logic for hero
+    
+    - Implemented layout and styling for the hero section.
+    - Files involved: ../public/html/mainSections/hero.html, hero.scss.
+    - Updated global styles in style.scss to support responsive design for the
+    hero.
+    - Integrated dynamic content loading for the hero section using the
+    loadWrapper function.
+    - Implemented animation for counters in the hero section via
+    AnimateCounter class.
+    - Set up search functionality with PageSearch class for elements marked
+    with data-search.
+    - Created a countdown timer to reset daily, updating dynamically in the
+    DOM.
+    - Added API-based price synchronization, updating every 15 seconds.
+    - Ensured modularity by leveraging reusable utility functions and classes.
+
+[33mcommit a844a68108e363eaa870dc014729e50f1609b10f[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Sat Nov 23 21:06:56 2024 +0300
+
+    feat(header): added layout and basic search logic
+    
+    - Implemented layout for the website header.
+    - Files involved: index.html, header.scss.
+    - Updated global styles in style.scss to support new elements.
+    - Added local fonts and connected.
+    - Prepared structure for working with an SVG sprite.
+    - Implemented basic page search logic using the data-search attribute.
+
+[33mcommit 56998c4505e5c586a37b690e70b67fabaab3fb9a[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Tue Nov 19 21:06:56 2024 +0300
+
+    test
+
+[33mcommit 1156537c11732c23669c747c47e57f7c976fb123[m
+Author: Aleks D.V. <alex.norw.jap@gmail.com>
+Date:   Tue Nov 19 20:52:39 2024 +0300
+
+    Initial commit
