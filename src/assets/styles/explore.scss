@@ -29,6 +29,7 @@
     font-size: 1.25rem;
     line-height: 1.2;
     font-weight: 200;
+
     @media (max-width: 1024px) {
       flex-shrink: 0;
       border-bottom: 1px solid #ffffff25;
@@ -62,6 +63,7 @@
     gap: 26px;
 
     margin-bottom: 70px;
+    min-height: 429px;
   }
 
   &__button {

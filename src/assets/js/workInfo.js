@@ -41,5 +41,4 @@ function renderList(arrayData, containerForRender, createHTML) {
 
   containerForRender.insertAdjacentHTML('beforeend', html);
 }
-
 export { dataWorkInfo, createItemExplore, renderList };

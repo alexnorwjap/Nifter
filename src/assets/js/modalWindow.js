@@ -9,6 +9,7 @@ class BaseModal {
   }
   initEvents() {
     this.modal.addEventListener('click', this);
+    document.addEventListener('keydown', this);
     this.btnClose.addEventListener('click', this);
   }
 
@@ -19,7 +20,8 @@ class BaseModal {
   }
 
   isCLoseAction(event) {
-    return event.target === this.btnClose || event.target === this.modal;
+    console.log(event.keydown);
+    return event.target === this.btnClose || event.target === this.modal || event.key === 'Escape';
   }
 
   openModalWindow() {
@@ -52,6 +54,21 @@ export class ModalErrorLinks extends BaseModal {
     event.preventDefault();
     this.titleModal.textContent = event.target.textContent;
     this.textModal.textContent = `Content for: ${event.target.textContent}`;
+    return this.openModalWindow();
+  }
+}
+
+export class ModalAnswerForm extends BaseModal {
+  constructor() {
+    super();
+    this.initEvents();
+  }
+  initEvents() {
+    super.initEvents();
+  }
+  openModalWithContent(email, textAnswer) {
+    this.titleModal.textContent = email;
+    this.textModal.textContent = textAnswer;
     return this.openModalWindow();
   }
 }

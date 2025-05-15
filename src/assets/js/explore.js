@@ -1,4 +1,6 @@
-export const exploreData = [
+import { AnimatedCollection } from './HotCollectionApp.js';
+
+const exploreData = [
   {
     Recomendations: [
       {
@@ -181,48 +183,106 @@ export const exploreData = [
   },
 ];
 
-export const createItemInExplore = (item) => `
-<li class="artworks-list__item">
-  <div class="artworks-list__image">
-    <img src="${item.imgPath}" alt="Vaporart" />
-  </div>
-  <div class="artworks-list__content content-artworks">
-    <div class="content-artworks__left">
-      <h3 class="content-artworks__title">${item.title}</h3>
-      <p class="content-artworks__subtitle">${item.subTitle}</p>
-      <p class="content-artworks__status">${item.status ? '1' : '0'} of 1 available</p>
-    </div>
-    <div class="content-artworks__right">
-      <p class="content-artworks__price">${item.price}</p>
-      <div class="content-artworks__likes">
-        <svg>
-          <use href="image/svg/sprite.svg#likes"></use>
-        </svg>
-        <p class="content-artworks__total">${item.likes} K</p>
-      </div>
-    </div>
-  </div>
-</li>
-`;
+export class ExploreManager extends AnimatedCollection {
+  constructor(tabContainer, containerExplore) {
+    super();
+    this.tabContainer = tabContainer;
+    this.containerExplore = containerExplore;
+    this.exploreData = exploreData;
+    this.currentIndex = 0;
 
-export function takeExploreData(nameData, targetName) {
-  let result;
-  nameData.forEach((element) => {
-    if (targetName in element) {
-      result = element[targetName];
-    }
-  });
-  return result;
-}
+    this.init();
+  }
 
-export function takeSideIndex(nameData, targetName, lastIndex) {
-  let side;
-  nameData.forEach((element) => {
-    if (targetName in element) {
-      nameData.indexOf(element);
-      side = lastIndex < nameData.indexOf(element) ? 'right' : 'left';
-      lastIndex = nameData.indexOf(element);
-    }
-  });
-  return side;
+  init() {
+    this.renderInitialCollection();
+    this.setupEventListeners();
+  }
+
+  renderInitialCollection() {
+    this.renderCollection(
+      null,
+      '',
+      this.createItemInExplore,
+      this.takeExploreData('Recomendations'),
+      this.containerExplore,
+    );
+  }
+
+  createItemInExplore(item) {
+    return `
+      <li class="artworks-list__item">
+        <div class="artworks-list__image">
+          <img src="${item.imgPath}" alt="Vaporart" />
+        </div>
+        <div class="artworks-list__content content-artworks">
+          <div class="content-artworks__left">
+            <h3 class="content-artworks__title">${item.title}</h3>
+            <p class="content-artworks__subtitle">${item.subTitle}</p>
+            <p class="content-artworks__status">${item.status ? '1' : '0'} of 1 available</p>
+          </div>
+          <div class="content-artworks__right">
+            <p class="content-artworks__price">${item.price}</p>
+            <div class="content-artworks__likes">
+              <svg>
+                <use href="image/svg/sprite.svg#likes"></use>
+              </svg>
+              <p class="content-artworks__total">${item.likes} K</p>
+            </div>
+          </div>
+        </div>
+      </li>
+    `;
+  }
+
+  takeExploreData(targetName) {
+    let result;
+    this.exploreData.forEach((element) => {
+      if (targetName in element) {
+        result = element[targetName];
+      }
+    });
+    return result;
+  }
+
+  takeSideIndex(targetName) {
+    let side;
+    let newIndex;
+
+    this.exploreData.forEach((element) => {
+      if (targetName in element) {
+        newIndex = this.exploreData.indexOf(element);
+        side = this.currentIndex < newIndex ? 'right' : 'left';
+      }
+    });
+
+    this.currentIndex = newIndex;
+    return side;
+  }
+
+  setupEventListeners() {
+    if (!this.tabContainer) return;
+
+    this.tabContainer.addEventListener('click', (event) => {
+      const tabs = this.tabContainer.querySelectorAll('button');
+
+      if (!event.target.closest('button')) return;
+
+      const categoryName = event.target.textContent;
+      const side = this.takeSideIndex(categoryName);
+
+      this.renderCollection(
+        null,
+        side,
+        this.createItemInExplore,
+        this.takeExploreData(categoryName),
+        this.containerExplore,
+      );
+
+      tabs.forEach((element) => {
+        element.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    });
+  }
 }

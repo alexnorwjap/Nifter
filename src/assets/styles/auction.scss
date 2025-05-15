@@ -67,7 +67,7 @@
       filter: blur(10px);
       opacity: 0.4;
       pointer-events: none;
-      @media (max-width: 543px) {
+      @media (max-width: 700px) {
         display: none;
       }
     }
@@ -83,7 +83,7 @@
       filter: blur(10px);
       opacity: 0.4;
       pointer-events: none;
-      @media (max-width: 543px) {
+      @media (max-width: 700px) {
         display: none;
       }
     }
@@ -134,7 +134,7 @@
   }
   &__image {
     // width: 100%;
-    max-height: 292px;
+    //max-height: 292px;
     position: relative;
     border-radius: 47px;
     overflow: hidden;
@@ -144,6 +144,7 @@
       max-height: 342px;
       margin-bottom: 17px;
     }
+
     img {
       width: 100%;
       height: 100%;
@@ -194,15 +195,18 @@
     border-radius: 19.5px;
     border: 1px solid var(--black);
     overflow: hidden;
-
+    @media (max-width: 543px) {
+      top: 35.4% !important;
+      height: 63px;
+    }
     .item-auction.active & {
       height: 63px;
       top: 52%;
       @media (max-width: 543px) {
-        top: 35.4%;
         left: 10.7%;
       }
     }
+
     img {
       width: 100%;
       height: 100%;
@@ -237,6 +241,10 @@
         margin-bottom: 0;
       }
     }
+    @media (max-width: 543px) {
+      font-size: 1.25rem;
+      margin-bottom: 0;
+    }
   }
 
   &__price {
@@ -268,9 +276,7 @@
       margin-bottom: 17px;
     }
     @media (max-width: 543px) {
-      .item-auction.active & {
-        margin-bottom: 10px;
-      }
+      margin-bottom: 0 !important;
     }
   }
 
@@ -304,9 +310,7 @@
       color: #b85fc6;
     }
     @media (max-width: 543px) {
-      .item-auction.active & {
-        margin-bottom: 17px;
-      }
+      margin-bottom: 17px !important;
     }
   }
 
@@ -316,8 +320,16 @@
     grid-area: buttons;
     justify-self: center;
     align-items: center;
-
     margin-bottom: 18px;
+
+    @media (max-width: 543px) {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      gap: 10px;
+      margin-bottom: 30px !important;
+    }
+
     .item-auction.active & {
       margin-bottom: 30px;
     }
@@ -337,15 +349,9 @@
         outline: none;
         box-shadow: 3px 3px 14px 0 rgba(166, 88, 179, 0.36);
       }
-    }
-    @media (max-width: 543px) {
-      button {
-        width: 100%;
-      }
-      .item-auction.active & {
-        width: 100%;
-        flex-direction: column;
-        gap: 10px;
+
+      @media (max-width: 543px) {
+        //flex: 1 1 100%;
       }
     }
   }

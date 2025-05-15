@@ -9,35 +9,27 @@ import './assets/styles/auction.scss';
 import './assets/styles/hot-collection.scss';
 import './assets/styles/explore.scss';
 import './assets/styles/worksInfo.scss';
-
+import './assets/styles/subscribe.scss';
 import './assets/styles/footer.scss';
 
 import { loadWrapper } from './assets/js/loadWrapper';
 import { AnimateCounter } from './assets/js/animateCounter';
 import { PageSearch } from './assets/js/pageSearch';
 import { syncPriceWithAPI } from './assets/js/syncPriceWithAPI';
-import * as sellerLogic from './assets/js/SellerApp';
-import { ModalErrorLinks } from './assets/js/modalWindow';
+import { SellerApp } from './assets/js/SellerApp';
+import { ModalErrorLinks, ModalAnswerForm } from './assets/js/modalWindow';
 import { CLickBurger } from './assets/js/burgerMenu';
-import {
-  renderButtons,
-  renderCollection,
-  createItemInCollection,
-  collectionHot,
-} from './assets/js/HotCollectionApp';
-import {
-  createItemInExplore,
-  exploreData,
-  takeExploreData,
-  takeSideIndex,
-} from './assets/js/explore';
+import { HotCollectionManager } from './assets/js/HotCollectionApp';
+import { ExploreManager } from './assets/js/explore';
 import * as workInfo from './assets/js/workInfo';
+import { EmailValidator, SubscribeFormApp } from './assets/js/subscribe';
+import { AuctionSlider, AuctionDataLoader } from './assets/js/auctionSlider';
+import { CountdownTimer } from './assets/js/timerApp';
 
-async function loadPages() {
+async function App() {
   const wrapper = document.querySelector('#wrapper');
 
   const pathWrapper = ['html/header.html', 'html/main.html', 'html/footer.html', 'html/modal.html'];
-
   const pathMain = [
     'html/mainSections/hero.html',
     'html/mainSections/top-seller.html',
@@ -45,6 +37,7 @@ async function loadPages() {
     'html/mainSections/hot-collection.html',
     'html/mainSections/explore.html',
     'html/mainSections/worksInfo.html',
+    'html/mainSections/subscribe.html',
   ];
 
   //----------------------------------------------------------
@@ -55,89 +48,8 @@ async function loadPages() {
   const page = document.querySelector('#page');
   await loadWrapper(pathMain, page);
   //----------------------------------------------------------
-
-  const containerSlider = document.querySelector('#slider-auction-wrap');
-  const auctionServer = 'https://ddbd8828c9bcda52.mokky.dev/auctions';
-
-  class DataLoader {
-    constructor(container, url) {
-      this.container = container;
-      this.url = url;
-      this.init = this.render();
-    }
-    async loadData() {
-      try {
-        const response = await fetch(this.url);
-        if (!response.ok) {
-          throw new Error('Статус пришел не тот:', response.status);
-        }
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error('Тут что-то не так: ', error);
-        throw error;
-      }
-    }
-    async createListItems(data) {
-      try {
-        const listItems = [];
-        data.forEach((item) => {
-          const li = document.createElement('li');
-
-          li.className = 'slider-auction__item item-auction';
-          if (item.startActive) li.classList.add('active');
-          li.innerHTML = `
-          <div class="item-auction__image">
-              <img src="${item.nftImage}" alt="avatar" />
-              <div class="item-auction__like">
-                <svg>
-                  <use href="image/svg/sprite.svg#like"></use>
-                </svg>
-              </div>
-            </div>
-            <div class="item-auction__photo">
-              <img src="${item.avatar}" alt="photo" />
-            </div>
-            <div class="item-auction__info">
-              <h3 class="item-auction__title">${item.title}</h3>
-              <p class="item-auction__price">${item.price} ETH</p>
-              <p class="item-auction__subtitle">${item.subTitle}</p>
-              <p class="item-auction__stock">${item.stock} in stock</p>
-              <p class="item-auction__bid">Highest bid <span>${item.startBid}Ethh</span></p>
-              <div class="item-auction__buttons">
-                <button type="button" class="item-auction__place-bid">Plece Bid</button>
-                <button type="button" class="item-auction__view">View</button>
-              </div>
-            </div>
-          `;
-          listItems.push(li);
-        });
-        return listItems;
-      } catch (error) {
-        console.error('Тут что-то не так: ', error);
-        throw error;
-      }
-    }
-
-    async render() {
-      try {
-        const data = await this.loadData();
-
-        const listItems = await this.createListItems(data);
-        const ul = document.createElement('ul');
-        ul.className = 'slider-auction__wrap';
-        ul.id = 'slider-auction';
-        ul.append(...listItems);
-        this.container.append(ul);
-      } catch (error) {
-        console.error('Тут что-то не так: ', error);
-        throw error;
-      }
-    }
-  }
-
-  const dataLoader = new DataLoader(containerSlider, auctionServer);
-  await dataLoader.init;
+  await loadLogic();
+  //----------------------------------------------------------
 }
 
 async function loadLogic() {
@@ -146,11 +58,10 @@ async function loadLogic() {
   const body = document.querySelector('body');
   new CLickBurger(burgerButton, burgerPage, body);
   //----------------------------------------------------------
-  const dataSearch = document.querySelectorAll('[data-search] *');
-  const allowTags = ['a', 'span', 'p'];
+
   const input = document.querySelector('#search');
 
-  new PageSearch(dataSearch, allowTags, input);
+  new PageSearch(document.body, input);
   //----------------------------------------------------------
 
   //----------------------------------------------------------
@@ -165,36 +76,9 @@ async function loadLogic() {
   //----------------------------------------------------------
 
   //----------------------------------------------------------
-  const hoursElement = document.querySelector('#hours');
-  const minutesElement = document.querySelector('#minutes');
-  const secondsElement = document.querySelector('#seconds');
 
-  const bitTime = new Date();
-  bitTime.setDate(bitTime.getDate() + 1);
+  new CountdownTimer('#hours', '#minutes', '#seconds', 'summer_sale_2025');
 
-  function updateTimer() {
-    const actualTime = new Date();
-    let timeLeft = bitTime - actualTime;
-
-    if (timeLeft < 0) {
-      bitTime.setDate(bitTime.getDate() + 1);
-      timeLeft = bitTime - actualTime;
-    }
-
-    const formatNum = (number) => {
-      return number < 10 ? `0${number}` : number;
-    };
-
-    const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-    hoursElement.textContent = formatNum(hours);
-    minutesElement.textContent = formatNum(minutes);
-    secondsElement.textContent = formatNum(seconds);
-  }
-
-  setInterval(updateTimer, 1000);
   //----------------------------------------------------------
 
   //----------------------------------------------------------
@@ -202,83 +86,27 @@ async function loadLogic() {
 
   if (price) {
     syncPriceWithAPI(price);
-    setInterval(() => syncPriceWithAPI(price), 15000);
+    setInterval(() => syncPriceWithAPI(price), 30000);
   }
 
   //----------------------------------------------------------
+  const containerSlider = document.querySelector('#slider-auction-wrap');
+  const auctionServer = 'https://ddbd8828c9bcda52.mokky.dev/auctions';
+  const dataLoader = new AuctionDataLoader(containerSlider, auctionServer);
+  await dataLoader.init;
 
-  new sellerLogic.SellerApp();
+  new SellerApp();
 
   // ----------------------------------------------------------
-
-  const auctionItem = document.querySelector('#slider-auction-wrap');
-  const auctionItemWidth = window.getComputedStyle(auctionItem).width;
+  // Инициализация слайдера аукциона
   const containerAuction = document.querySelector('#slider-auction');
   const auctionPrev = document.querySelector('#auction-prev');
   const auctionNext = document.querySelector('#auction-next');
 
-  let moveCount = -430;
-  let firstStep = 0;
-  console.log(auctionItemWidth);
-  if (parseFloat(auctionItemWidth) === 1024) {
-    firstStep = -140;
-  }
-  if (parseFloat(auctionItemWidth) === 768) {
-    firstStep = -229;
-  }
-  if (parseFloat(auctionItemWidth) === 560) {
-    firstStep = -351;
-  }
-  if (parseFloat(auctionItemWidth) === 401) {
-    firstStep = -431;
-  }
-  if (parseFloat(auctionItemWidth) <= 263) {
-    moveCount = -290;
-    firstStep = -288;
-  }
+  // Создание экземпляра класса AuctionSlider
+  new AuctionSlider(containerAuction, auctionPrev, auctionNext);
 
-  const startActive = 1;
-  let isAnimate = false;
-  let activeItem = document.querySelector('.active');
-  containerAuction.prepend(containerAuction.lastElementChild);
-
-  containerAuction.style.transform = `translateX(${moveCount + firstStep}px)`;
-
-  auctionNext.addEventListener('click', moveRight);
-  auctionPrev.addEventListener('click', moveLeft);
-
-  function moveLeft() {
-    if (isAnimate) return;
-    isAnimate = true;
-    activeItem.classList.remove('active');
-    containerAuction.style.transition = 'transform 0.5s ease';
-    containerAuction.style.transform = `translateX(${firstStep}px)`;
-    activeItem = activeItem.previousElementSibling;
-    activeItem.classList.add('active');
-    setTimeout(() => {
-      containerAuction.style.transition = 'none';
-      containerAuction.prepend(containerAuction.lastElementChild);
-      containerAuction.style.transform = `translateX(${moveCount + firstStep}px)`;
-      isAnimate = false;
-    }, 500);
-  }
-
-  function moveRight() {
-    if (isAnimate) return;
-    isAnimate = true;
-    activeItem.classList.remove('active');
-    containerAuction.style.transition = 'transform 0.5s ease';
-    containerAuction.style.transform = `translateX(${(moveCount + firstStep / 2) * 2}px)`;
-    activeItem = activeItem.nextElementSibling;
-    activeItem.classList.add('active');
-    setTimeout(() => {
-      containerAuction.style.transition = 'none';
-      containerAuction.appendChild(containerAuction.firstElementChild);
-      containerAuction.style.transform = `translateX(${moveCount + firstStep}px)`;
-      isAnimate = false;
-    }, 500);
-  }
-
+  //----------------------------------------------------------
   const like = document.querySelectorAll('[class*="__like"]');
   like.forEach((element) => {
     element.addEventListener('click', () => element.classList.toggle('active'));
@@ -286,15 +114,12 @@ async function loadLogic() {
 
   //----------------------------------------------------------
 
-  // function hundleResize() {
-  //   console.log(auctionItem.clientWidth);
-  // }
-  //  window.addEventListener('resize', hundleResize);
-
   //----------------------------------------------------------
-  //
+  //Modal Error
   const linksArray = Array.from(document.querySelectorAll('[href="#"]'));
-  const linksDevelopment = new ModalErrorLinks(linksArray);
+  const buttonsError = Array.from(document.querySelectorAll('[id="#"]'));
+  new ModalErrorLinks(linksArray);
+  new ModalErrorLinks(buttonsError);
   //----------------------------------------------------------
 
   //----------------------------------------------------------
@@ -302,67 +127,28 @@ async function loadLogic() {
   const collectionContainer = document.querySelector('#collection-list');
   const containerButtons = document.querySelector('#buttons-collection');
   const titleCollectionsBlock = document.querySelector('#collection-title');
-  renderButtons(containerButtons);
-  renderCollection(0, '', createItemInCollection, collectionHot, collectionContainer);
 
-  let collectionIndex = 0;
-
-  containerButtons.addEventListener('change', (event) => {
-    const targetId = +event.target.id.slice(-1);
-
-    const side = collectionIndex < targetId ? 'right' : collectionIndex > targetId ? 'left' : '';
-    collectionIndex = targetId;
-
-    renderCollection(targetId, side, createItemInCollection, collectionHot, collectionContainer);
-  });
-  containerButtons.addEventListener('click', (event) => {
-    if (event.target.closest('label')) {
-      titleCollectionsBlock.scrollIntoView();
-    }
-  });
+  new HotCollectionManager(collectionContainer, containerButtons, titleCollectionsBlock);
   //----------------------------------------------------------
-  //----------------------------------------------------------
+
   //Explore
   const tabContainer = document.querySelector('#tabs-container');
   const containerExplore = document.querySelector('#artworks-container');
-  let exploreIndex = 0;
-  renderCollection(
-    null,
-    '',
-    createItemInExplore,
-    takeExploreData(exploreData, 'Recomendations'),
-    containerExplore,
-  );
 
-  tabContainer.addEventListener('click', (event) => {
-    const tabs = tabContainer.querySelectorAll('button');
+  new ExploreManager(tabContainer, containerExplore);
 
-    if (!event.target.closest('button')) return;
+  //-------------------------------------------------------------------
 
-    renderCollection(
-      null,
-      takeSideIndex(exploreData, event.target.textContent, exploreIndex),
-      createItemInExplore,
-      takeExploreData(exploreData, event.target.textContent),
-      containerExplore,
-    );
-
-    tabs.forEach((element) => {
-      element.classList.remove('active');
-    });
-    event.target.classList.add('active');
-  });
-
-  //----------------------------------------------------------
   //Work info----------------------------------------------------------
-
   const containerWorkInfo = document.querySelector('#work-info');
   workInfo.renderList(workInfo.dataWorkInfo, containerWorkInfo, workInfo.createItemExplore);
+  //Work info----------------------------------------------------------
+
+  //Subscribe----------------------------------------------------------
+  const urlSubscribes = 'https://ed2e39ac2756d838.mokky.dev/subscribes';
+  new SubscribeFormApp('#subscribe', urlSubscribes, new EmailValidator(), new ModalAnswerForm());
+  //Subscribe----------------------------------------------------------
+  //----------------------------------------------------------
 }
 
-async function app() {
-  await loadPages();
-  await loadLogic();
-}
-
-app();
+App();

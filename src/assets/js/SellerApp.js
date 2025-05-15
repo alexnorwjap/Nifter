@@ -1,4 +1,6 @@
-export class DropdownManager {
+import { ModalErrorLinks } from './modalWindow';
+
+class DropdownManager {
   constructor(targetSelector, optionsWrapSelector, optionSelector) {
     this.dropdownWrap = document.querySelector(optionsWrapSelector);
     this.dropdownOptions = document.querySelectorAll(optionSelector);
@@ -60,7 +62,7 @@ export class DropdownManager {
   }
 }
 
-export class SellerSlider {
+class SellerSlider {
   constructor(sliderWrapSelector, prevBtnSelector, nextBtnSelector, btnContainerSelector) {
     this.slider = document.querySelector('.slider');
     this.buttonContainer = document.querySelector(btnContainerSelector);
@@ -197,7 +199,7 @@ export class SellerSlider {
   }
 }
 
-export class DataLoader {
+class DataLoader {
   constructor(containerSelector) {
     this.container = document.querySelector(containerSelector);
   }
@@ -270,8 +272,14 @@ export class SellerApp {
     await this.dataLoader.loadData(period);
     this.slider.currentPosition = 0;
 
+    //setTimeout(() => {
     this.slider.sliderRect = this.slider.sliderWrap.getBoundingClientRect();
-
+    this.slider.updateSliderScrollWidth();
+    this.slider.updateSliderWidth();
+    this.slider.updateSliderStep();
     this.slider.updateSliderPosition();
+    const linksForModal = Array.from(this.dataLoader.container.querySelectorAll('[href="#"]'));
+    new ModalErrorLinks(linksForModal);
+    //}, 0);
   }
 }
