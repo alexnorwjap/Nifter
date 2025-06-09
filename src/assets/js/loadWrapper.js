@@ -1,21 +1,25 @@
-export async function loadWrapper(arrayPath, wrapp) {
+
+export async function  loadWrapper(arrayPath, wrapper, initCallbacks) {
   try {
-    const results = await Promise.allSettled(
-      arrayPath.map(async (url) => {
-        try {
-          const response = await fetch(url);
-          if (!response.ok) throw new Error(`Ошибка: ${response.status}!`);
-          return await response.text();
-        } catch (err) {
-          console.warn(`Не удалось загрузить ${url}:`, err.message);
-          return null;
-        }
-      }),
-    );
+    for(const path of arrayPath) {
+      if(Array.isArray(path)
+      ) {
+        console.log(typeof path);
+        await loadWrapper(path, document.querySelector('#page'), initCallbacks)
+        continue;
+      };
+      const response = await fetch(path);
+      const data = await response.text();
+      wrapper.insertAdjacentHTML('beforeend', data);
 
-    const wrapperContent = results.map(({ value }) => value);
+      const fileName = path.split('/').pop().replace('.html', '');
+      const initCallback = initCallbacks[fileName];
 
-    wrapp.insertAdjacentHTML('beforeend', wrapperContent.join(''));
+      if(initCallback) {
+        await initCallback();
+      }
+
+    }
   } catch (error) {
     console.log(error.message);
   }

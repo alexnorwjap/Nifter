@@ -38,23 +38,26 @@ class BaseModal {
 }
 
 export class ModalErrorLinks extends BaseModal {
-  constructor(elements) {
+  constructor() {
     super();
-    this.elements = elements;
     this.initEvents();
   }
   initEvents() {
     super.initEvents();
-    this.elements.forEach((element) =>
-      element.addEventListener('click', (event) => this.openModalWithContent(event)),
-    );
+    document.addEventListener('click', (event) => this.openModalWithContent(event));
   }
 
   openModalWithContent(event) {
-    event.preventDefault();
-    this.titleModal.textContent = event.target.textContent;
-    this.textModal.textContent = `Content for: ${event.target.textContent}`;
-    return this.openModalWindow();
+
+    const id = event.target.getAttribute('id');
+    const href = event.target.getAttribute('href');
+
+    if(id === '#' || href === '#') {
+      event.preventDefault();
+      this.titleModal.textContent = event.target.textContent;
+      this.textModal.textContent = `Content for: ${event.target.textContent}`;
+      return this.openModalWindow();
+    }
   }
 }
 
